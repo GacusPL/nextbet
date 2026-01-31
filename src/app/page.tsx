@@ -54,7 +54,7 @@ export default async function Home() {
             </Link>
             <a href="" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" variant="secondary" className="h-14 px-8 text-lg w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white">
-                  REGULAMIN ROZGRYWEK
+                  REGULAMIN SERWISU
                 </Button>
             </a>
           </div>
