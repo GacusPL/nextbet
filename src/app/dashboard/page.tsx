@@ -2,7 +2,6 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import BettingSystem from '@/components/betting-system'
 import UserCouponsList from '@/components/user-coupons'
-import CompanyInfo from '@/components/company-info'
 import { Zap, LogOut, Skull, Trophy, User, Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
@@ -154,8 +153,6 @@ export default async function DashboardPage() {
           <div className="container mx-auto px-4 space-y-4">
             <p className="text-gray-600 text-sm">
               &copy; NEXTBET
-            </p>
-
             </p>
           </div>
         </footer>
