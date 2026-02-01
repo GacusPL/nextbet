@@ -160,19 +160,22 @@ export default async function Home() {
       </section>
 {/* Sekcja Regulaminu */}
       <section id="regulamin" className="py-20 bg-zinc-950 border-t border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center text-green-500">REGULAMIN SERWISU</h2>
-            <div className="space-y-6 text-gray-400 leading-relaxed text-sm md:text-base">
-              <p>1. Serwis NextBet służy wyłącznie do celów edukacyjnych i symulacji typowania wyników.</p>
-              <p>2. Użytkownik korzystając z serwisu akceptuje zasady Fair Play.</p>
-              <p>3. Wszystkie kursy generowane są dynamicznie na podstawie algorytmów projektu.</p>
-              <p>4. Zabrania się wykorzystywania błędów systemu w celu manipulacji rankingiem.</p>
-              <p>5. Administratorem danych jest Kaja Thiel oraz Kacper Szponar.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+  <div className="container mx-auto px-4">
+    {}
+    <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+      <h2 className="text-3xl font-bold mb-8 text-green-500 uppercase tracking-wider">
+        Regulamin Serwisu
+      </h2>
+      <div className="space-y-6 text-gray-400 leading-relaxed text-sm md:text-base max-w-2xl">
+        <p>1. Serwis NextBet służy wyłącznie do celów edukacyjnych i symulacji typowania wyników.</p>
+        <p>2. Użytkownik korzystając z serwisu akceptuje zasady Fair Play.</p>
+        <p>3. Wszystkie kursy generowane są dynamicznie na podstawie algorytmów projektu.</p>
+        <p>4. Zabrania się wykorzystywania błędów systemu w celu manipulacji rankingiem.</p>
+        <p>5. Administratorem danych jest Kaja Thiel oraz Kacper Szponar.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="py-10 text-center border-t border-white/5 bg-black">
