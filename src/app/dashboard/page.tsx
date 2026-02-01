@@ -155,8 +155,6 @@ export default async function DashboardPage() {
             <p className="text-gray-600 text-sm">
               &copy; NEXTBET
             </p>
-
-            </p>
           </div>
         </footer>
       </main>
