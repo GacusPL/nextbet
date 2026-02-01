@@ -51,7 +51,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=twoj_klucz
 ## Struktura Projektu
 
 Poniżej znajduje się odwzorowanie struktury plików w folderze `src`:
-
+```
 src/
 ├── app/                 # Routing aplikacji (App Router)
 │   ├── admin/           # Panel administratora (actions.ts, page.tsx)
@@ -70,3 +70,4 @@ src/
 ├── lib/                 # Biblioteki pomocnicze
 ├── utils/               # Narzędzia (np. klient Supabase)
 └── public/              # Zasoby statyczne (ikony, obrazy)
+```
