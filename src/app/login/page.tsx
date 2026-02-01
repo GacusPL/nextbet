@@ -1,0 +1,141 @@
+import Link from "next/link"
+import { login, signup } from './actions'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { SubmitButton } from "@/components/login/SubmitButton"
+import { Zap, ArrowLeft, LifeBuoy } from "lucide-react"
+import FormFeedback from "@/components/login/FormFeedback"
+import { Suspense } from "react"
+
+type LoginSearchParams = {
+  status?: "error" | "success" | "warning"
+  type?: "login" | "signup"
+  message?: string
+}
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<LoginSearchParams>
+}) {
+  const params = await searchParams
+
+  const defaultTab = params?.type === 'signup' ? 'register' : 'login'
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-black text-white p-4 relative overflow-hidden">
+      
+      {/* PRZYCISK POWROTU */}
+      <div className="absolute top-4 left-4 z-50">
+        <Link href="/">
+          <Button variant="ghost" className="text-gray-400 hover:text-white hover:bg-zinc-800">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Wróć na stronę główną
+          </Button>
+        </Link>
+      </div>
+
+      {/* TŁO AMBIENTOWE */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-green-600/10 blur-[100px] rounded-full pointer-events-none" />
+
+      <Card className="w-full max-w-md border-zinc-800 bg-zinc-950/80 backdrop-blur-sm relative z-10">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+             <div className="bg-green-600/20 p-3 rounded-full border border-green-500/30">
+                <Zap className="w-8 h-8 text-green-500" />
+             </div>
+          </div>
+          <CardTitle className="text-2xl font-black tracking-tighter text-white">
+            Dołącz do <span className="text-green-500">NEXT</span><span className="text-white">BET</span>
+          </CardTitle>
+          <CardDescription className="text-gray-400">
+            Zaloguj się, żeby obstawiać mecze.
+          </CardDescription>
+        </CardHeader>
+        
+        <CardContent>
+          {/* Ustawiamy defaultValue dynamicznie na podstawie params */}
+          <Tabs defaultValue={defaultTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-zinc-900 mb-6">
+              <TabsTrigger value="login" className="data-[state=active]:bg-green-600 data-[state=active]:text-black text-gray-400 font-bold">LOGOWANIE</TabsTrigger>
+              <TabsTrigger value="register" className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-400 font-bold">REJESTRACJA</TabsTrigger>
+            </TabsList>
+            
+            {/* --- ZAKŁADKA LOGOWANIA --- */}
+            <TabsContent value="login">
+              <form action={login}>
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="email" className="text-white">Email</Label>
+                    <Input id="email" name="email" type="email" placeholder="twoj@email.com" required className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="password" className="text-white">Hasło</Label>
+                    <Input id="password" name="password" type="password" required minLength={6} className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
+                  </div>
+                  
+                  {/* USUNIĘTY LoginToastHandler STĄD */}
+                  
+                  <SubmitButton>
+                    Zaloguj
+                  </SubmitButton>
+                </div>
+              </form>
+            </TabsContent>
+
+            {/* --- ZAKŁADKA REJESTRACJI --- */}
+            <TabsContent value="register">
+              <form action={signup}>
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="fullName" className="text-white">Nazwa Użytkownika (Nick)</Label>
+                    <Input id="fullName" name="fullName" type="text" placeholder="Np. Jan" required className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="email" className="text-white">Email</Label>
+                    <Input id="email" name="email" type="email" placeholder="twoj@email.com" required className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="password" className="text-white">Hasło</Label>
+                    <Input id="password" name="password" type="password" required minLength={6} placeholder="Minimum 6 znaków" className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
+                  </div>
+                  <SubmitButton variant="white">
+                    Dołącz do NEXTBET (Odbierz 10000 PKT)
+                  </SubmitButton>
+                </div>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-4">
+            <div className="text-center text-xs text-gray-500 w-full">
+                Logując się akceptujesz Regulamin.
+            </div>
+
+            <div className="w-full border-t border-zinc-800 pt-4 mt-2">
+                <div className="flex items-start gap-3 bg-zinc-900/50 p-3 rounded border border-zinc-800">
+                    <LifeBuoy className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+                    <div className="text-xs text-gray-400">
+                        <p className="font-bold text-gray-300 mb-1">Problem z kontem / logowaniem?</p>
+                        <p>Pisz do admina</p>
+
+                    </div>
+                </div>
+            </div>
+        </CardFooter>
+      </Card>
+
+      {/* TOAST HANDLER - Jeden, jedyny, sprawiedliwy.
+         Wrzucamy w Suspense, bo korzysta z useSearchParams.
+      */}
+      <Suspense>
+        <FormFeedback />
+      </Suspense>
+      
+    </div>
+  )
+}
