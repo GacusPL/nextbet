@@ -35,7 +35,7 @@ npm install
 
 ### 2. Uruchomienie serwera deweloperskiego
 Wpisz poniższą komendę w terminalu:
-```bash
+
 npm run dev
 # lub
 yarn dev
@@ -53,7 +53,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=twoj_klucz
 
 Poniżej znajduje się odwzorowanie struktury plików w folderze `src`:
 
-```text
 src/
 ├── app/                 # Routing aplikacji (App Router)
 │   ├── admin/           # Panel administratora (actions.ts, page.tsx)
