@@ -30,30 +30,30 @@
 
 ### 1. Instalacja
 Zainstaluj zależności (upewnij się, że masz Node.js):
-```bash
+```
 npm install
-
+```
 ### 2. Uruchomienie serwera deweloperskiego
 Wpisz poniższą komendę w terminalu:
-```bash
+```
 npm run dev
-# lub
-yarn dev
+```
 
 Otwórz http://localhost:3000 w przeglądarce, aby zobaczyć wynik. Możesz zacząć edytować stronę główną, modyfikując plik src/app/page.tsx.
 
 ### 3. Konfiguracja Środowiska
 Upewnij się, że Twój plik .env zawiera niezbędne klucze do Supabase:
+```
 NEXT_PUBLIC_SUPABASE_URL=twoj_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=twoj_klucz
+```
 
 ---
 
 ## Struktura Projektu
 
 Poniżej znajduje się odwzorowanie struktury plików w folderze `src`:
-
-```text
+```
 src/
 ├── app/                 # Routing aplikacji (App Router)
 │   ├── admin/           # Panel administratora (actions.ts, page.tsx)
@@ -72,3 +72,5 @@ src/
 ├── lib/                 # Biblioteki pomocnicze
 ├── utils/               # Narzędzia (np. klient Supabase)
 └── public/              # Zasoby statyczne (ikony, obrazy)
+```
+---
