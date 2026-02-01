@@ -16,8 +16,12 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    const message = encodeURIComponent('Błędne dane logowania.')
-    return redirect(`/login?message=${message}`)
+    // FIX: Kodujemy wiadomość (encodeURIComponent), żeby polskie znaki nie wywaliły serwera
+    const message = encodeURIComponent('Błędne dane logowania. Próbujesz oszukać?')
+
+  redirect(
+    `/login?status=error&type=login&message=${message}`
+  )
   }
 
   revalidatePath('/', 'layout')
@@ -31,9 +35,12 @@ export async function signup(formData: FormData) {
   const password = formData.get('password') as string
   const fullName = formData.get('fullName') as string
   
+  // FIX: Wstępna walidacja hasła, żeby nie męczyć Supabase
   if (password.length < 6) {
       const message = encodeURIComponent('Hasło musi mieć minimum 6 znaków!')
-      return redirect(`/login?message=${message}`)
+  redirect(
+    `/login?status=warning&type=signup&message=${message}`
+  )
   }
 
   const { error } = await supabase.auth.signUp({
@@ -48,8 +55,12 @@ export async function signup(formData: FormData) {
 
   if (error) {
     console.error(error)
+    // FIX: Kodujemy wiadomość o błędzie
     const message = encodeURIComponent('Błąd rejestracji. Sprawdź dane.')
-    return redirect(`/login?message=${message}`)
+
+  redirect(
+    `/login?status=error&type=signup&message=${message}`
+  )
   }
 
   revalidatePath('/', 'layout')
