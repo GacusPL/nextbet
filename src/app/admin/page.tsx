@@ -16,13 +16,11 @@ import Link from 'next/link'
 export default async function AdminPage() {
   const supabase = await createClient()
 
-  // 1. Auth Admina
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
   
   const { data: profile } = await supabase.from('profiles').select('is_admin').eq('id', user.id).single()
 
-  // --- ZABEZPIECZENIE: EKRAN ZAKAZU WSTĘPU (CHARAKTERNY) ---
   if (!profile?.is_admin) {
     return (
       <div className="min-h-screen bg-black text-red-600 flex items-center justify-center flex-col gap-6 p-4 text-center selection:bg-red-900 selection:text-white">
@@ -40,15 +38,11 @@ export default async function AdminPage() {
     )
   }
 
-  // 2. POBIERANIE DANYCH
-  
-  // A. Turnieje i Mecze
   const { data: tournaments } = await supabase
     .from('tournaments')
     .select('*, matches(*)')
     .order('created_at', { ascending: false })
 
-  // B. Ostatnie Kupony (Do kontroli)
   const { data: coupons } = await supabase
     .from('coupons')
     .select(`
@@ -62,7 +56,6 @@ export default async function AdminPage() {
     .order('created_at', { ascending: false })
     .limit(20)
 
-// C. Użytkownicy (Do banowania)
   const { data: users, error: usersError } = await supabase
     .from('profiles')
     .select('*')
@@ -89,22 +82,20 @@ export default async function AdminPage() {
 
       <div className="max-w-6xl mx-auto space-y-12">
         
-        {/* ==================================================================================
-            SEKCJA 1: ZARZĄDZANIE MECZAMI (TURNIEJE)
-           ================================================================================== */}
+        {}
         <section className="space-y-6">
             <div className="flex items-center gap-2 mb-4">
                 <Swords className="w-6 h-6 text-green-500"/>
                 <h2 className="text-2xl font-bold">ROZPISKA GIER</h2>
             </div>
 
-            {/* KREATOR TURNIEJU */}
+            {}
             <Card className="bg-black border-green-900/50">
                 <CardHeader>
                     <CardTitle className="text-sm uppercase text-gray-500">Nowy Turniej</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {/* FIX: Wrapper async */}
+                    {}
                     <form action={async (fd) => { 'use server'; await createTournament(fd) }} className="flex gap-4">
                         <Input name="name" placeholder="Nazwa turnieju" className="bg-zinc-900 border-zinc-700 text-white" required />
                         <Button className="bg-green-600 hover:bg-green-700 text-black font-bold whitespace-nowrap">Stwórz Turniej</Button>
@@ -112,7 +103,7 @@ export default async function AdminPage() {
                 </CardContent>
             </Card>
 
-            {/* LISTA TURNIEJÓW */}
+            {}
             <div className="grid gap-6">
                 {tournaments?.map((tournament) => (
                     <Card key={tournament.id} className="bg-zinc-900 border-zinc-800 shadow-xl">
@@ -122,8 +113,8 @@ export default async function AdminPage() {
                                     <h2 className="text-xl font-bold text-white">{tournament.name}</h2>
                                     <Badge variant="outline" className="text-gray-500">ID: {tournament.id}</Badge>
                                 </div>
-                                {/* PRZYCISK USUWANIA CAŁEGO Turnieju */}
-                                {/* FIX: Wrapper async */}
+                                {}
+                                {}
                                 <form action={async (fd) => { 'use server'; await deleteTournament(fd) }}>
                                     <input type="hidden" name="tournamentId" value={tournament.id} />
                                     <Button size="sm" variant="destructive" className="bg-red-900/30 text-red-500 hover:bg-red-900/50 border border-red-900/50">
@@ -134,10 +125,10 @@ export default async function AdminPage() {
                         </CardHeader>
                         
                         <CardContent className="pt-6">
-                            {/* FORMULARZ DODAWANIA MECZU */}
+                            {}
                             <div className="bg-zinc-950/50 p-4 rounded-lg border border-dashed border-zinc-700 mb-6">
                                 <h3 className="text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider">Dodaj mecz do tego turnieju</h3>
-                                {/* FIX: Wrapper async */}
+                                {}
                                 <form action={async (fd) => { 'use server'; await createMatch(fd) }} className="grid gap-4">
                                     <input type="hidden" name="tournamentId" value={tournament.id} />
                                     <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
@@ -166,7 +157,7 @@ export default async function AdminPage() {
 
                             <Separator className="my-4 bg-zinc-800" />
 
-                            {/* --- LISTA GIER --- */}
+                            {}
                             <div className="space-y-3">
                                 {tournament.matches && tournament.matches.length > 0 ? (
                                     tournament.matches.map((match: any) => (
@@ -182,7 +173,7 @@ export default async function AdminPage() {
             </div>
         </section>
 
-        {/* --- SEKCJA 2: LISTA GRACZY --- */}
+        {}
         <section className="space-y-6 pt-8 border-t border-zinc-800">
             <div className="flex items-center gap-2 mb-4 text-blue-500"><Users className="w-6 h-6"/><h2 className="text-2xl font-bold">LISTA GRACZY</h2></div>
             <div className="grid gap-2">
@@ -195,9 +186,8 @@ export default async function AdminPage() {
                             <span className="text-sm text-zinc-500 font-mono ml-2">{u.points} PKT</span>
                         </div>
                         
-                        {/* PRZYCISK BANA */}
+                        {}
                         {!u.is_admin && (
-                            // FIX: Wrapper async
                             <form action={async (formData) => {
                                 'use server'
                                 await toggleUserBan(formData)
@@ -220,16 +210,16 @@ export default async function AdminPage() {
             </div>
         </section>
 
-        {/* --- SEKCJA 3: KONTROLA KUPONÓW --- */}
+        {}
         <section className="pt-8 border-t border-zinc-800">
             <div className="flex items-center gap-2 mb-6 text-yellow-500"><Banknote className="w-6 h-6"/><h2 className="text-2xl font-bold">KONTROLA KUPONÓW</h2></div>
             <div className="grid lg:grid-cols-2 gap-4">
                {coupons?.map((coupon: any) => (
                  <Card key={coupon.id} className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition relative group">
                     
-                    {/* PRZYCISK USUWANIA KUPONU */}
+                    {}
                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
-                        {/* FIX: Wrapper async */}
+                        {}
                         <form action={async (fd) => { 'use server'; await manageCoupon(fd) }}>
                             <input type="hidden" name="couponId" value={coupon.id} />
                             <input type="hidden" name="action" value="DELETE" />
@@ -259,9 +249,9 @@ export default async function AdminPage() {
                         </div>
 
 
-                        {/* Pasek szczegolow meczu */}
+                        {}
                      <div className="bg-black/40 p-3 rounded border border-white/5 text-sm space-y-2">
-                         {/* SCENARIUSZ 1: Kupon jest pusty (selekcje zostały usunięte z bazy) */}
+                         {}
                          {(!coupon.coupon_selections || coupon.coupon_selections.length === 0) ? (
                              <div className="text-center py-2">
                                  <p className="text-red-500 font-bold text-xs uppercase tracking-widest">
@@ -272,9 +262,7 @@ export default async function AdminPage() {
                                  </p>
                              </div>
                          ) : (
-                             /* SCENARIUSZ 2: Kupon ma selekcje - wyświetlamy je */
                              coupon.coupon_selections.map((sel: any, idx: number) => {
-                                 // Zabezpieczenie na wypadek tablicy/obiektu
                                  const matchData = Array.isArray(sel.matches) ? sel.matches[0] : sel.matches;
                              
                                  return (
@@ -299,7 +287,7 @@ export default async function AdminPage() {
                      
                      </div>
 
-                        {/* PANEL AKCJI - WRAPPERY ASYNC */}
+                        {}
                         {coupon.status === 'OPEN' && (
                             <div className="grid grid-cols-3 gap-2 pt-2">
                                 <form action={async (fd) => { 'use server'; await manageCoupon(fd) }} className="w-full">
@@ -329,7 +317,7 @@ export default async function AdminPage() {
         </section>
       </div>
 
-      {/* --- FOOTER --- */}
+      {}
         <p className="my-20"></p>
       <footer className="py-10 text-center border-t border-white/5 bg-black">
         <div className="container mx-auto px-4 space-y-4">

@@ -40,7 +40,6 @@ export default async function ProfilePage() {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
-  // --- OBLICZENIA STATYSTYK ---
   const totalCoupons = myCoupons?.length || 0
   const wonCoupons = myCoupons?.filter(c => c.status === 'WON').length || 0
   const lostCoupons = myCoupons?.filter(c => c.status === 'LOST').length || 0
@@ -59,7 +58,7 @@ export default async function ProfilePage() {
     <div className="min-h-screen bg-black text-white p-4 pb-20">
       <div className="max-w-6xl mx-auto space-y-10">
         
-        {/* HEADER NAWIGACYJNY */}
+        {}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-zinc-800 pb-8">
             <Link href="/dashboard">
             <Button
@@ -85,11 +84,11 @@ export default async function ProfilePage() {
 
         <div className="grid lg:grid-cols-3 gap-10">
             
-            {/* LEWA STRONA: WIZYTÓWKA */}
+            {}
             <div className="lg:col-span-1 space-y-8">
                 <Card className="bg-zinc-900 border-zinc-800 overflow-hidden relative group shadow-2xl">
                     
-                    {/* PRZYCISK EDYCJI (MODAL) */}
+                    {}
                     <div className="absolute top-4 right-4 z-10 opacity-70 group-hover:opacity-100 transition-opacity">
                         <Dialog>
                             <DialogTrigger asChild>
@@ -124,7 +123,7 @@ export default async function ProfilePage() {
                         </div>
                     </CardContent>
 
-                    {/* MINI STATYSTYKI WIZYTÓWKI */}
+                    {}
                     <div className="grid grid-cols-3 border-t border-zinc-800 bg-black/20 divide-x divide-zinc-800">
                         <div className="p-4 text-center">
                             <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Kupony</p>
@@ -141,7 +140,7 @@ export default async function ProfilePage() {
                     </div>
                 </Card>
 
-                {/* ROZSZERZONE STATYSTYKI ("MIĘSO") */}
+                {}
                 <Card className="bg-zinc-900/50 border-zinc-800">
                     <CardContent className="p-6 space-y-6">
                         <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-2 border-b border-zinc-800 pb-2">Statystyki Gracza</h3>
@@ -181,14 +180,14 @@ export default async function ProfilePage() {
                 </Card>
             </div>
 
-            {/* PRAWA STRONA: HISTORIA ZAKŁADÓW */}
+            {}
             <div className="lg:col-span-2">
                 <div className="flex items-center gap-3 mb-8 p-5 bg-zinc-900/30 border border-zinc-800/50 rounded-xl">
                     <History className="w-6 h-6 text-zinc-400"/>
                     <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-300">Pełna Historia Gry</h2>
                 </div>
                 
-                {/* Komponent listy kuponów */}
+                {}
                 <UserCouponsList coupons={myCoupons || []} />
             </div>
 

@@ -3,7 +3,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-// Pomocnicza: Czy to Szef?
 async function isUserAdmin() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -12,8 +11,6 @@ async function isUserAdmin() {
   return profile?.is_admin === true
 }
 
-
-// ================== SILNIK ROZLICZENIOWY (NOWY) ==================
 async function settleRelatedCoupons(
   matchId: number,
   winner: string | null,
@@ -125,14 +122,12 @@ export async function createTournament(formData: FormData) {
   }
 }
 
-// 2. USUWANIE TURNIEJU (NOWE!)
 export async function deleteTournament(formData: FormData) {
   try {
     if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
     const supabase = await createClient()
     const tournamentId = formData.get('tournamentId')
 
-    // Dzięki CASCADE w SQL, usunie to też wszystkie mecze w tym pojedynku
     const { error } = await supabase.from('tournaments').delete().eq('id', Number(tournamentId))
     if (error) throw error
 
@@ -144,7 +139,6 @@ export async function deleteTournament(formData: FormData) {
   }
 }
 
-// 3. ZARZĄDZANIE MECZAMI (Tworzenie / Edycja / Usuwanie)
 export async function createMatch(formData: FormData) {
   try {
     if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
@@ -211,7 +205,6 @@ export async function updateMatch(formData: FormData) {
 
     if (error) throw error
 
-    // ✅ PEŁNE AUTOMATYCZNE ROZLICZANIE
     if (status === 'FINISHED' || status === 'CANCELLED') {
       await settleRelatedCoupons(matchId, winner, status)
     }
@@ -226,19 +219,16 @@ export async function updateMatch(formData: FormData) {
   }
 }
 
-
-// --- 4. ZARZĄDZANIE KUPONAMI (Interwencja Admina) ---
 export async function manageCoupon(formData: FormData) {
   try {
     if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
 
     const supabase = await createClient()
     const couponId = formData.get('couponId')
-    const action = formData.get('action') as string // 'PAY_OUT', 'VOID', 'REJECT'
+    const action = formData.get('action') as string 
 
     if (!couponId) return { error: 'Brak ID kuponu.' }
 
-    // Pobierz dane kuponu
     const { data: coupon, error: fetchError } = await supabase
       .from('coupons')
       .select('*')
@@ -247,13 +237,9 @@ export async function manageCoupon(formData: FormData) {
 
     if (fetchError || !coupon) return { error: 'Nie znaleziono kuponu.' }
 
-    // LOGIKA INTERWENCJI
     if (action === 'PAY_OUT') {
-      // 1. Oznacz jako WYGRANY
       await supabase.from('coupons').update({ status: 'WON' }).eq('id', couponId)
 
-      // 2. Przelej hajs użytkownikowi
-      // (Pobieramy aktualne punkty i dodajemy wygraną)
       const { data: profile } = await supabase.from('profiles').select('points').eq('id', coupon.user_id).single()
       if (profile) {
         await supabase.from('profiles')
@@ -265,10 +251,8 @@ export async function manageCoupon(formData: FormData) {
     }
 
     if (action === 'VOID') {
-      // 1. Anuluj (ZWROT STAWKI)
       await supabase.from('coupons').update({ status: 'VOIDED' }).eq('id', couponId)
 
-      // 2. Oddaj stawkę
       const { data: profile } = await supabase.from('profiles').select('points').eq('id', coupon.user_id).single()
       if (profile) {
         await supabase.from('profiles')
@@ -280,14 +264,12 @@ export async function manageCoupon(formData: FormData) {
     }
 
     if (action === 'REJECT') {
-      // Po prostu przegrana (np. za oszustwo / Klauzulę Liścia)
       await supabase.from('coupons').update({ status: 'LOST' }).eq('id', couponId)
       revalidatePath('/admin')
       return { success: 'Kupon oznaczony jako PRZEGRANY.' }
     }
 
     if (action === 'DELETE') {
-      // Całkowite usunięcie kuponu z bazy (bez zwrotów, bez śladu)
       const { error: deleteError } = await supabase.from('coupons').delete().eq('id', couponId)
 
       if (deleteError) {
@@ -307,7 +289,6 @@ export async function manageCoupon(formData: FormData) {
   }
 }
 
-// --- 5. EDYCJA SZCZEGÓŁÓW MECZU (POPRAWKI) ---
 export async function editMatchDetails(formData: FormData) {
   try {
     if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
@@ -315,7 +296,6 @@ export async function editMatchDetails(formData: FormData) {
     const supabase = await createClient()
     const matchId = formData.get('matchId')
 
-    // Pobieramy nowe dane
     const gameName = formData.get('gameName') as string
     const teamA = formData.get('teamA') as string
     const teamB = formData.get('teamB') as string
@@ -334,7 +314,7 @@ export async function editMatchDetails(formData: FormData) {
         team_b: teamB,
         odds_a: oddsA,
         odds_b: oddsB,
-        handicap: handicap || null, // Jeśli pusty string to null
+        handicap: handicap || null, 
         start_time: startTime
       })
       .eq('id', Number(matchId))
@@ -350,7 +330,6 @@ export async function editMatchDetails(formData: FormData) {
   }
 }
 
-// --- ZARZĄDZANIE UŻYTKOWNIKAMI (BANOWANIE) ---
 export async function toggleUserBan(formData: FormData) {
   if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
   const supabase = await createClient()
