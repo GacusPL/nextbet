@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { createMatch, manageCoupon, createTurnament } from './actions'
+import { createMatch, manageCoupon, createTournament } from './actions'
 import AdminMatchRow from '@/components/admin/match-row'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -36,8 +36,8 @@ export default async function AdminPage() {
     )
   }
 
-  const { data: turnaments } = await supabase
-    .from('turnaments')
+  const { data: tournaments } = await supabase
+    .from('tournaments')
     .select('*, matches(*)')
     .order('created_at', { ascending: false })
 
@@ -89,7 +89,7 @@ export default async function AdminPage() {
                 <CardContent>
                 <form action={async (formData) => {
                 "use server"
-                await createTurnament(formData)
+                await createTournament(formData)
                 }} className="flex gap-4">
                     <Input name="name" placeholder="Nazwa wydarzenia" className="bg-zinc-900 border-zinc-700 text-white" required />
                     <Button className="bg-green-600 hover:bg-green-700 text-black font-bold whitespace-nowrap">Stwórz Turniej</Button>
@@ -99,12 +99,12 @@ export default async function AdminPage() {
 
             {/* LISTA POJEDYNKÓW */}
             <div className="grid gap-6">
-                {turnaments?.map((turnament) => (
-                    <Card key={turnament.id} className="bg-zinc-900 border-zinc-800 shadow-xl">
+                {tournaments?.map((tournament) => (
+                    <Card key={tournament.id} className="bg-zinc-900 border-zinc-800 shadow-xl">
                         <CardHeader className="bg-black/40 border-b border-zinc-800 pb-4">
                             <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-white">{turnament.name}</h2>
-                                <Badge variant="outline" className="text-gray-500">ID: {turnament.id}</Badge>
+                                <h2 className="text-xl font-bold text-white">{tournament.name}</h2>
+                                <Badge variant="outline" className="text-gray-500">ID: {tournament.id}</Badge>
                             </div>
                         </CardHeader>
                         
@@ -116,7 +116,7 @@ export default async function AdminPage() {
                                     "use server"
                                     await createMatch(formData)
                                 }} className="grid gap-4">
-                                    <input type="hidden" name="turnamentId" value={turnament.id} />
+                                    <input type="hidden" name="tournamentsId" value={tournament.id} />
                                     <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                         <Input name="gameName" placeholder="Gra (np. CS2)" className="bg-zinc-900 border-zinc-700 text-white" required />
                                         <Input name="teamA" placeholder="Team A" className="bg-zinc-900 border-zinc-700 text-white" required />
@@ -145,8 +145,8 @@ export default async function AdminPage() {
 
                             {/* LISTA GIER */}
                         <div className="space-y-3">
-                            {turnament.matches && turnament.matches.length > 0 ? (
-                                turnament.matches.map((match: any) => (
+                            {tournament.matches && tournament.matches.length > 0 ? (
+                                tournament.matches.map((match: any) => (
                                 
                                     <AdminMatchRow key={match.id} match={match} />
                                 ))

@@ -11,7 +11,7 @@ async function isUserAdmin() {
   return profile?.is_admin === true
 }
 
-export async function createTurnament(formData: FormData) {
+export async function createTournament(formData: FormData) {
   try {
     if (!await isUserAdmin()) return { error: 'Brak uprawnień.' }
 
@@ -20,7 +20,7 @@ export async function createTurnament(formData: FormData) {
 
     if (!name) return { error: 'Podaj nazwę turnieju.' }
 
-    const { error } = await supabase.from('turnaments').insert({ name, status: 'ACTIVE' })
+    const { error } = await supabase.from('tournaments').insert({ name, status: 'ACTIVE' })
     if (error) throw error
 
     revalidatePath('/admin')
