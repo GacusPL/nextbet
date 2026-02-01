@@ -43,8 +43,10 @@ Otwórz http://localhost:3000 w przeglądarce, aby zobaczyć wynik. Możesz zacz
 
 ### 3. Konfiguracja Środowiska
 Upewnij się, że Twój plik .env zawiera niezbędne klucze do Supabase:
+```
 NEXT_PUBLIC_SUPABASE_URL=twoj_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=twoj_klucz
+```
 
 ---
 
