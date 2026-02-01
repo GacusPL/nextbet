@@ -1,10 +1,23 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {Flame} from "lucide-react";
+import { Flame, ArrowRight, Calendar,} from "lucide-react";
+import { createClient } from '@/utils/supabase/server'
 
 export default async function Home() {
-  //const supabase = await createClient()
+  const supabase = await createClient()
+
+  const { data: matches } = await supabase
+    .from('matches')
+    .select(`
+      *,
+      tournaments ( name )
+    `)
+    .in('status', ['LIVE', 'PENDING'])
+    .order('status', { ascending: true }) 
+    .order('start_time', { ascending: true })
+    .limit(6)
 
 
   return (
@@ -77,7 +90,78 @@ export default async function Home() {
                     Dynamiczna aktualizacja kursów i statystyk
                 </p>
             </div>
+            
+            <Link href="/dashboard" className="text-sm text-green-500 hover:underline flex items-center gap-1">
+                Zobacz wszystkie <ArrowRight className="w-4 h-4"/>
+            </Link>
           </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            {matches && matches.length > 0 ? (
+                matches.map((match: any) => (
+                    <Card key={match.id} className={`bg-black border-zinc-800 transition-all group relative overflow-hidden ${match.status === 'LIVE' ? 'border-red-900/50 shadow-[0_0_20px_rgba(220,38,38,0.15)]' : 'hover:border-green-900/50'}`}>
+                        
+                        <div className="absolute top-0 right-0 z-10">
+                            {match.status === 'LIVE' ? (
+                                <span className="bg-red-600 text-white text-[10px] font-black px-3 py-1 animate-pulse uppercase tracking-widest">LIVE</span>
+                            ) : (
+                                <span className="bg-zinc-800 text-gray-400 text-[10px] font-bold px-3 py-1 uppercase tracking-widest">
+                                    {new Date(match.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                </span>
+                            )}
+                        </div>
+
+                        <CardHeader className="pb-2 pt-8">
+                            <div className="flex justify-center mb-2">
+                                <Badge variant="secondary" className="bg-zinc-900 text-gray-300 border border-zinc-700 text-[10px] uppercase tracking-wide">
+                                    {match.game_name}
+                                </Badge>
+                            </div>
+                            <CardTitle className="text-center py-2 flex flex-col items-center gap-2 text-xl">
+                                <div className="flex justify-between w-full items-center">
+                                    <span className="w-[45%] text-right truncate text-white">{match.team_a}</span>
+                                    <span className="text-zinc-600 text-xs font-mono">VS</span>
+                                    <span className="w-[45%] text-left truncate text-white">{match.team_b}</span>
+                                </div>
+                                <span className="text-xs text-zinc-500 font-normal truncate max-w-full">
+                                    {match.duels?.name}
+                                </span>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 gap-3">
+                                <Link href="/dashboard" className="w-full">
+                                    <Button variant="outline" className="w-full border-zinc-800 text-white hover:bg-green-900/20 hover:text-green-400 hover:border-green-900/50 h-12 text-lg font-bold bg-zinc-900/50">
+                                        {match.odds_a.toFixed(2)}
+                                    </Button>
+                                </Link>
+                                <Link href="/dashboard" className="w-full">
+                                    <Button variant="outline" className="w-full border-zinc-800 text-white hover:bg-green-900/20 hover:text-green-400 hover:border-green-900/50 h-12 text-lg font-bold bg-zinc-900/50">
+                                        {match.odds_b.toFixed(2)}
+                                    </Button>
+                                </Link>
+                            </div>
+                            <p className="text-center text-[10px] text-gray-600 mt-3">
+                                Zaloguj się, aby postawić kupon
+                            </p>
+                        </CardContent>
+                    </Card>
+                ))
+            ) : (
+                <div className="col-span-full py-12 text-center border border-dashed border-zinc-800 rounded-xl bg-zinc-900/20">
+                    <Calendar className="w-12 h-12 mx-auto text-zinc-700 mb-4"/>
+                    <h3 className="text-xl font-bold text-gray-500">Brak meczy w rozpisce</h3>
+                    <p className="text-gray-600">Niedługo pojawią się nowe mecze.</p>
+                </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/*sekcja zasady*/}
+      <section className="py-20 container mx-auto px-4">
+        <div className="grid md:grid-cols-3 gap-8 text-center">
         </div>
       </section>
 

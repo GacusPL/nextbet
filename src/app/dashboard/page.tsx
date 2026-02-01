@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import BettingSystem from '@/components/betting-system'
 import UserCouponsList from '@/components/user-coupons'
-import { Zap, LogOut } from 'lucide-react'
+import { Zap, LogOut, Trophy, Lock, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 
@@ -49,27 +49,68 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-green-500 selection:text-black">
+      
       <nav className="border-b border-zinc-800 bg-zinc-950/50 backdrop-blur sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="font-black text-xl tracking-tighter text-white hover:opacity-80 transition">
-            BET<span className="text-green-500">REX</span>
+            NEXT<span className="text-green-500">BET</span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            
             <div className="flex items-center gap-2 bg-green-900/20 border border-green-500/30 px-3 py-1.5 rounded-full">
               <Zap className="w-4 h-4 text-green-500 fill-green-500" />
               <span className="font-bold text-green-400">{profile?.points ?? 0}</span>
-              <span className="text-xs text-green-600 font-bold uppercase hidden sm:inline">Pkt</span>
+              <span className="text-xs text-green-600 font-bold uppercase hidden sm:inline">
+                PKT
+              </span>
             </div>
             
+            <Link href="/leaderboard">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-yellow-500 hover:text-yellow-400 hover:bg-yellow-900/20"
+                title="Ranking"
+              >
+                <Trophy className="w-5 h-5" />
+              </Button>
+            </Link>
+
+            <Link href="/profile">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                title="Twój Profil"
+              >
+                <User className="w-5 h-5" />
+              </Button>
+            </Link>
+
             {profile?.is_admin && (
-                <Link href="/admin">
-                    <Button variant="outline" size="sm" className="border-red-900 text-red-500 hover:bg-red-900/20">Admin</Button>
-                </Link>
+              <Link href="/admin">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-red-800 text-red-500 hover:bg-red-950/30 hover:text-red-400 flex items-center gap-2 transition-colors"
+                  title="Panel Administratora"
+                >
+                  <Lock className="w-4 h-4" />
+                  
+                  <span className="hidden sm:inline">Admin</span>
+                </Button>
+              </Link>
             )}
 
             <form action="/auth/signout" method="post">
-              <Button variant="ghost" size="icon" type="submit" className="text-gray-400 hover:text-white hover:bg-red-900/20">
+              <Button
+                variant="ghost"
+                size="icon"
+                type="submit"
+                className="text-gray-400 hover:text-white hover:bg-red-900/20"
+                title="Wyloguj"
+              >
                 <LogOut className="w-5 h-5" />
               </Button>
             </form>
