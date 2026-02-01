@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { createTournament, createMatch, updateMatch, manageCoupon, toggleUserBan } from './actions'
+import { createTournament, deleteTournament, createMatch, updateMatch, manageCoupon, toggleUserBan } from './actions'
 import AdminMatchRow from '@/components/admin/match-row'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
