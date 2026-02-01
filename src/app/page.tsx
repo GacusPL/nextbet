@@ -65,11 +65,11 @@ export default async function Home() {
                 <Flame className="mr-2 h-5 w-5" /> PRZEJDŹ DO WYDARZEŃ
               </Button>
             </Link>
-            <a href="" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" variant="secondary" className="h-14 px-8 text-lg w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white">
-                  REGULAMIN SERWISU
-                </Button>
-            </a>
+            <Link href="#regulamin">
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white">
+            REGULAMIN SERWISU
+          </Button>
+        </Link>
           </div>
         </div>
       </section>
@@ -158,18 +158,37 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/*sekcja zasady*/}
-      <section className="py-20 container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8 text-center">
+{/* Sekcja Regulaminu */}
+      <section id="regulamin" className="py-20 bg-zinc-950 border-t border-white/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-8 text-center text-green-500">REGULAMIN SERWISU</h2>
+            <div className="space-y-6 text-gray-400 leading-relaxed text-sm md:text-base">
+              <p>1. Serwis NextBet służy wyłącznie do celów edukacyjnych i symulacji typowania wyników.</p>
+              <p>2. Użytkownik korzystając z serwisu akceptuje zasady Fair Play.</p>
+              <p>3. Wszystkie kursy generowane są dynamicznie na podstawie algorytmów projektu.</p>
+              <p>4. Zabrania się wykorzystywania błędów systemu w celu manipulacji rankingiem.</p>
+              <p>5. Administratorem danych jest Kaja Thiel oraz Kacper Szponar.</p>
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="py-10 text-center border-t border-white/5 bg-black">
         <div className="container mx-auto px-4 space-y-4">
-            <p className="text-gray-600 text-sm">
-                &copy; 2026 NextBet
-            </p>
+          <div className="flex justify-center gap-6 mb-4">
+            <Link href="#regulamin" className="text-gray-500 hover:text-green-500 text-sm transition-colors">Regulamin</Link>
+            <Link href="/login" className="text-gray-500 hover:text-green-500 text-sm transition-colors">Zaloguj się</Link>
+          </div>
+          <p className="text-gray-600 text-xs">
+            &copy; {new Date().getFullYear()} NextBet. Wszystkie prawa zastrzeżone.
+          </p>
+          <div className="flex justify-center">
+             <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-[10px] font-bold text-gray-500 border border-zinc-800">
+               N
+             </div>
+          </div>
         </div>
       </footer>
     </main>
