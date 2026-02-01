@@ -30,7 +30,6 @@
 
 ### 1. Instalacja
 Zainstaluj zależności (upewnij się, że masz Node.js):
-```bash
 npm install
 
 ### 2. Uruchomienie serwera deweloperskiego
