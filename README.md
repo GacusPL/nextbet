@@ -73,3 +73,4 @@ src/
 ├── utils/               # Narzędzia (np. klient Supabase)
 └── public/              # Zasoby statyczne (ikony, obrazy)
 ```
+---
