@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge"
 export default async function LeaderboardPage() {
   const supabase = await createClient()
 
-  // Pobierz TOP 50 graczy (BEZ ZBANOWANYCH)
   const { data: users } = await supabase
     .from('profiles')
     .select('username, points')

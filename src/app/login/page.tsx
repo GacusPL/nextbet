@@ -38,7 +38,7 @@ export default async function LoginPage({
         </Link>
       </div>
 
-      {/* TŁO AMBIENTOWE */}
+      { }
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-green-600/10 blur-[100px] rounded-full pointer-events-none" />
 
       <Card className="w-full max-w-md border-zinc-800 bg-zinc-950/80 backdrop-blur-sm relative z-10">
@@ -57,14 +57,14 @@ export default async function LoginPage({
         </CardHeader>
         
         <CardContent>
-          {/* Ustawiamy defaultValue dynamicznie na podstawie params */}
+          { }
           <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-zinc-900 mb-6">
               <TabsTrigger value="login" className="data-[state=active]:bg-green-600 data-[state=active]:text-black text-gray-400 font-bold">LOGOWANIE</TabsTrigger>
               <TabsTrigger value="register" className="data-[state=active]:bg-white data-[state=active]:text-black text-gray-400 font-bold">REJESTRACJA</TabsTrigger>
             </TabsList>
             
-            {/* --- ZAKŁADKA LOGOWANIA --- */}
+            {/* ZAKŁADKA LOGOWANIA*/}
             <TabsContent value="login">
               <form action={login}>
                 <div className="grid gap-4">
@@ -77,7 +77,7 @@ export default async function LoginPage({
                     <Input id="password" name="password" type="password" required minLength={6} className="bg-zinc-900 border-zinc-700 text-white placeholder:text-gray-400 focus:border-green-500" />
                   </div>
                   
-                  {/* USUNIĘTY LoginToastHandler STĄD */}
+                  { }
                   
                   <SubmitButton>
                     Zaloguj
@@ -86,7 +86,7 @@ export default async function LoginPage({
               </form>
             </TabsContent>
 
-            {/* --- ZAKŁADKA REJESTRACJI --- */}
+            {}
             <TabsContent value="register">
               <form action={signup}>
                 <div className="grid gap-4">
@@ -129,9 +129,7 @@ export default async function LoginPage({
         </CardFooter>
       </Card>
 
-      {/* TOAST HANDLER - Jeden, jedyny, sprawiedliwy.
-         Wrzucamy w Suspense, bo korzysta z useSearchParams.
-      */}
+      {}
       <Suspense>
         <FormFeedback />
       </Suspense>

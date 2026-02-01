@@ -10,27 +10,23 @@ import Link from 'next/link'
 export default async function DashboardPage() {
   const supabase = await createClient()
 
-  // 1. Sprawdź sesję
   const { data: { user }, error } = await supabase.auth.getUser()
   if (error || !user) {
     redirect('/login')
   }
 
-  // 2. Pobierz profil
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
 
-  // 3. Pobierz Turnieje (Oferta)
   const { data: tournaments } = await supabase
     .from('tournaments')
     .select('*, matches(*)')
     .eq('status', 'ACTIVE')
     .order('created_at', { ascending: false })
 
-  // 4. Pobierz Kupony
   const { data: myCoupons, error: couponsError } = await supabase
     .from('coupons')
     .select(`
@@ -96,20 +92,18 @@ export default async function DashboardPage() {
               </Button>
             </Link>
 
-{/* ADMIN (Dla szefa) - Widoczny tylko jeśli profile.is_admin === true */}
+{/* ADMIN  */}
             {profile?.is_admin && (
               <Link href="/admin">
                 <Button
                   variant="outline"
                   size="sm"
-                  // Usunięto 'hidden', teraz jest 'flex'. 
-                  // Na mobile widać ikonę, na desktopie (sm) ikonę + tekst.
                   className="border-red-800 text-red-500 hover:bg-red-950/30 hover:text-red-400 flex items-center gap-2 transition-colors"
                   title="Panel Administratora"
                 >
                   <Lock className="w-4 h-4" />
                   
-                  {/* Napis ukryty na mobile (hidden), widoczny od tabletu w górę (sm:inline) */}
+                  { }
                   <span className="hidden sm:inline">Admin</span>
                 </Button>
               </Link>
@@ -149,7 +143,7 @@ export default async function DashboardPage() {
         {/* HISTORIA KUPONÓW */}
         <UserCouponsList coupons={myCoupons || []} showHistory={false} />
 
-        {/* --- FOOTER --- */}
+        {}
         <footer className="py-10 text-center border-t border-white/5 bg-black">
           <div className="container mx-auto px-4 space-y-4">
             <p className="text-gray-600 text-sm">
