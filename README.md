@@ -30,14 +30,14 @@
 
 ### 1. Instalacja
 Zainstaluj zależności (upewnij się, że masz Node.js):
+```
 npm install
-
+```
 ### 2. Uruchomienie serwera deweloperskiego
 Wpisz poniższą komendę w terminalu:
-
+```
 npm run dev
-# lub
-yarn dev
+```
 
 Otwórz http://localhost:3000 w przeglądarce, aby zobaczyć wynik. Możesz zacząć edytować stronę główną, modyfikując plik src/app/page.tsx.
 
