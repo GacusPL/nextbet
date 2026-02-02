@@ -242,7 +242,7 @@ export default async function AdminPage() {
                                 </div>
                                 <div className="text-sm text-gray-400 mt-1">
                                     Stawka: <span className="text-white font-mono">{coupon.stake}</span> ➔ 
-                                    Do wyjęcia: <span className="text-green-400 font-mono font-bold">{coupon.potential_win}</span>
+                                    Do wygrania: <span className="text-green-400 font-mono font-bold">{coupon.potential_win}</span>
                                 </div>
                             </div>
                             <div className="text-right text-xs text-gray-500 pr-6">{new Date(coupon.created_at).toLocaleTimeString()}</div>

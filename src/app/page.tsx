@@ -169,7 +169,7 @@ export default async function Home() {
       <div className="space-y-6 text-gray-400 leading-relaxed text-sm md:text-base max-w-2xl">
         <p>1. Serwis NextBet służy wyłącznie do celów edukacyjnych i symulacji typowania wyników.</p>
         <p>2. Użytkownik korzystając z serwisu akceptuje zasady Fair Play.</p>
-        <p>3. Wszystkie kursy generowane są dynamicznie na podstawie algorytmów projektu.</p>
+        <p>3. Wszystkie kursy są dynamicznie ustalane przez administację.</p>
         <p>4. Zabrania się wykorzystywania błędów systemu w celu manipulacji rankingiem.</p>
         <p>5. Administratorem danych jest Kaja Thiel oraz Kacper Szponar.</p>
       </div>
